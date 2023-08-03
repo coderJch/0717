@@ -40,7 +40,7 @@ public class UserController {
     }
 
 
-    @RequestMapping("/login")
+  /*  @RequestMapping("/login")
     public Result login(String username, String password) {
         log.debug("oms backup,user:{},password:{}", username, password);
         if (userService.login(username, password)) {
@@ -50,5 +50,5 @@ public class UserController {
             log.debug("login fail");
             return new Result(false, MessageConst.ACTION_FAIL);
         }
-    }
+    }*/
 }
