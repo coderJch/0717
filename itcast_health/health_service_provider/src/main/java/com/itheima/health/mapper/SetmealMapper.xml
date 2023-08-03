@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.health.dao.SetmealMapper">
+
+
+    <insert id="add" parameterType="com.itheima.health.pojo.Setmeal">
+        INSERT INTO t_setmeal VALUES(null, #{name}, #{code}, #{helpCode},#{sex},#{age},#{price}, #{remark},
+        #{attention}, #{img})
+        <selectKey order="AFTER" keyProperty="id" resultType="integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <insert id="addSetmealIdCheckGroupId">
+        INSERT INTO t_setmeal_checkgroup (setmeal_id, checkgroup_id) VALUES (#{setmealId},#{checkgroupId})
+    </insert>
+    <select id="findByQueryString" resultType="com.itheima.health.pojo.Setmeal">
+        SELECT * FROM t_setmeal
+        <if test=" queryString!=null and queryString.length > 0">
+            WHERE code LIKE CONCAT('%',#{queryString},'%') or name LIKE CONCAT('%',#{queryString},'%') or helpCode like
+            CONCAT('%',#{queryString},'%')
+        </if>
+    </select>
+    <select id="findAllSetmeal" resultType="com.itheima.health.pojo.Setmeal">
+
+
+        SELECT * FROM t_setmeal;
+    </select>
+
+
+
+    <resultMap id="setMealBaseResultMap" type="Setmeal">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="remark" column="remark"/>
+        <result property="sex" column="sex"/>
+        <result property="code" column="code"/>
+        <result property="helpCode" column="helpCode"/>
+        <result property="price" column="price"/>
+        <result property="attention" column="attention"/>
+        <result property="img" column="img"/>
+    </resultMap>
+    <resultMap id="setMealAndCheckGroupResultMap" type="Setmeal" extends="setMealBaseResultMap">
+
+        <collection property="checkGroups" javaType="ArrayList" ofType="CheckGroup" select="com.itheima.health.dao.CheckGroupMapper.selectCheckGroupBySetmealId" column="id"/>
+
+    </resultMap>
+
+
+    <select id="findSetmealById" resultMap="setMealAndCheckGroupResultMap">
+        SELECT
+        id,
+        name,
+        code,
+        helpCode,
+        sex,
+        age,
+        price,
+        remark,
+        attention,
+        img
+        FROM
+        t_setmeal
+        WHERE id =#{id}
+    </select>
+
+
+</mapper>
