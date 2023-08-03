@@ -5,6 +5,8 @@ import com.itheima.health.common.MessageConst;
 import com.itheima.health.entity.Result;
 import com.itheima.health.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,15 +42,19 @@ public class UserController {
     }
 
 
-  /*  @RequestMapping("/login")
-    public Result login(String username, String password) {
-        log.debug("oms backup,user:{},password:{}", username, password);
-        if (userService.login(username, password)) {
-            log.debug("login ok!!!");
-            return new Result(true, MessageConst.ACTION_SUCCESS);
-        } else {
-            log.debug("login fail");
-            return new Result(false, MessageConst.ACTION_FAIL);
+    @RequestMapping("/getUsername")
+    public Result getUsername() {
+        try{
+            //从授权框架上下文获取授权对象，再从授权对象获取授权框架用户对象User,最后获取用户名
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)authentication.getPrincipal();
+            log.debug("user:{}",user);
+            if (user != null){
+                return new Result(true,MessageConst.ACTION_SUCCESS,user.getUsername());
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
-    }*/
+        return new Result(false,MessageConst.ACTION_FAIL);
+    }
 }

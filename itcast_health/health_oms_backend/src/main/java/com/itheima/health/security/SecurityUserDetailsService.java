@@ -1,8 +1,10 @@
 package com.itheima.health.security;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.itheima.health.pojo.Permission;
 import com.itheima.health.pojo.Role;
 import com.itheima.health.pojo.User;
+import com.itheima.health.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,6 +23,9 @@ import java.util.*;
  */
 public class SecurityUserDetailsService implements UserDetailsService {
     static Map<String, User> userDb = new HashMap<>();
+
+    @Reference
+    private UserService userService;
 
 
     @Autowired
@@ -65,9 +70,8 @@ public class SecurityUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
+        User currUser = userService.findByUsername(username);
 
-        // 模拟从数据库读取用户信息
-        User currUser = userDb.get(username);
         if (currUser == null) {
             return null;
         }
@@ -85,11 +89,10 @@ public class SecurityUserDetailsService implements UserDetailsService {
         // 如果密码未加密，必须用默认加密规则加密
         // 如果密码已加密，则不用使用默认规则加密
         String passwordInDb = currUser.getPassword();
-        String authPassword = passwordEncoder.encode(passwordInDb);
-
-        System.out.println("authPassword :"+authPassword);
+        String encode = passwordEncoder.encode(passwordInDb);
+        System.out.println("encode:"+encode);
         // 构建UserDetails对象
-        UserDetails userDetails = new org.springframework.security.core.userdetails.User(username, authPassword, authList);
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(username, passwordInDb, authList);
         return userDetails;
 
     }

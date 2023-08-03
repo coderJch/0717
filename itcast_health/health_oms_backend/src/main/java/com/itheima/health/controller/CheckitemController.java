@@ -11,6 +11,7 @@ import jdk.nashorn.internal.runtime.Debug;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.yetus.audience.InterfaceAudience;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,7 @@ public class CheckitemController {
     @Reference
     private CheckItemService checkItemService;
 
-
+    @PreAuthorize("hasAuthority('CHECKITEM_ADD')")//权限校验
     @RequestMapping("/add")
     public Result add(@RequestBody CheckItem checkItem) {
         log.debug("CheckitemController checkItem:{}", checkItem);
@@ -49,7 +50,7 @@ public class CheckitemController {
         }
 
     }
-
+    @PreAuthorize("hasAuthority('CHECKITEM_QUERY')")
     @RequestMapping("/findPage")
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean) {
         log.debug("CheckitemController queryPageBean:{}", queryPageBean);
@@ -61,7 +62,7 @@ public class CheckitemController {
             return new PageResult(0L, new ArrayList());
         }
     }
-
+    @PreAuthorize("hasAuthority('CHECKITEM_DELETE')")
     @RequestMapping("/deleteById")
     public Result deleteById(Integer id) {
         log.debug("CheckitemController deleteById:{}", id);
@@ -74,7 +75,7 @@ public class CheckitemController {
             return new Result(false, e.getMessage());
         }
     }
-
+    @PreAuthorize("hasAuthority('CHECKITEM_QUERY')")
     @RequestMapping("/findCheckItemById")
     public Result findCheckItemById(Integer id) {
 
@@ -90,7 +91,7 @@ public class CheckitemController {
 
     }
 
-
+    @PreAuthorize("hasAuthority('CHECKITEM_EDIT')")
     @RequestMapping("/editCheckItem")
     public Result editCheckItem(@RequestBody CheckItem checkItem) {
 
@@ -105,7 +106,7 @@ public class CheckitemController {
 
 
     }
-
+    @PreAuthorize("hasAuthority('CHECKITEM_QUERY')")
     @RequestMapping("/findAllCheckItem")
     public Result findAllCheckItem() {
 

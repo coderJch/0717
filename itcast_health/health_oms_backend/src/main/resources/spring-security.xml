@@ -6,12 +6,6 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/security
        http://www.springframework.org/schema/security/spring-security.xsd">
-
-
-
-
-
-
     <!-- 2.配置需要授权访问的资源及访问角色及权限-->
 
     <security:http auto-config="true" use-expressions="true">
@@ -28,28 +22,22 @@
           -->
         <security:csrf disabled="true"/>
 
-       <!-- <security:logout logout-url="/logout.do"
-                         logout-success-url="/login.jsp" invalidate-session="true"/>-->
 
-        <security:logout logout-url="/logout.do"
-                         logout-success-url="/login.jsp" invalidate-session="true"/>
+
+        <security:logout logout-url="/sec/logout.do"
+                         logout-success-url="http://localhost:8080/pages/login.html"
+                         invalidate-session="true"/>
     </security:http>
 
     <!-- 3.配置认证授权管理器（认证管理者、认证提供者、认证对象）-->
     <security:authentication-manager>
         <security:authentication-provider user-service-ref="securityUserDetailsService">
-          <!--  <security:user-service>
-                <security:user name="admin" authorities="ROLE_ADMIN" password="{noop}123"/>
-                <security:user name="zhangsan" authorities="ROLE_READER,find" password="{noop}123"/>
-                <security:user name="lisi" authorities="ROLE_OMS,add,update" password="{noop}123"/>
-            </security:user-service>-->
-
-
             <security:password-encoder ref="passwordEncoder"/>
         </security:authentication-provider>
     </security:authentication-manager>
     <!--配置密码加密对象-->
     <bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" id="passwordEncoder"/>
+
     <bean class="com.itheima.health.security.SecurityUserDetailsService"
           id="securityUserDetailsService"/>
 

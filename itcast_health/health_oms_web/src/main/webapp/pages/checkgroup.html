@@ -352,7 +352,7 @@
                     pageSize: this.pagination.pageSize,
                     queryString: this.pagination.queryString
                 };
-
+                axios.defaults.withCredentials = true;
                 axios.post(this.backend_url + "/CheckGroup/findPage.do", param).then((res) => {
                     this.dataList = res.data.rows;
                     this.pagination.total = res.data.total;

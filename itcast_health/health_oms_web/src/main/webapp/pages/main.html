@@ -187,7 +187,7 @@
             // 设置跨域访问，withCredentials必须为true
             axios.defaults.withCredentials = true;
             // 发送axios请求
-            axios.get("http://localhost:9002/user/getUsername.do").then((response)=>{
+            axios.get("http://localhost:9002/web/user/getUsername.do").then((response)=>{
                 console.log(response.data.data);
                 this.username = response.data.data;
             });
