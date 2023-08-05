@@ -8,7 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -38,4 +40,18 @@ public class MemberServiceImpl implements MemberService {
         }
 
     }
+
+    @Override
+    public List<Integer> findMemberCountByMonth(List<String> monthList) {
+
+
+        List<Integer> countMemberList = new ArrayList<>();
+        for (String month : monthList) {
+            String date = month + ".31";
+            countMemberList.add(memberMapper.findMemberCountBeforeDate(date));
+        }
+        return countMemberList;
+    }
+
+
 }

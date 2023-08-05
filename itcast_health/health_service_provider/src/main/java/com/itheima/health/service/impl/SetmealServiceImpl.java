@@ -83,4 +83,9 @@ public class SetmealServiceImpl implements SetmealService {
 
         return  setmealMapper.findSetmealById(id);
     }
+
+    @Override
+    public List<Map<String, Object>> findSetmealForCount() {
+        return setmealMapper.findSetmealForCount();
+    }
 }

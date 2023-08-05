@@ -32,4 +32,8 @@ public interface SetmealMapper {
 
 
    Setmeal findSetmealById(Integer id);
+
+
+
+   List<Map<String,Object>> findSetmealForCount();
 }

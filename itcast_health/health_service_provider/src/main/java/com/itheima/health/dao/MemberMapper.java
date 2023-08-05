@@ -1,6 +1,7 @@
 package com.itheima.health.dao;
 
 import com.itheima.health.pojo.Member;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author: jiangchenhui
@@ -17,4 +18,7 @@ public interface MemberMapper {
 
 
    void addMember(Member member);
+
+
+   Integer findMemberCountBeforeDate(@Param("date") String date);
 }

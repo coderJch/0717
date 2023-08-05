@@ -23,4 +23,14 @@
 
         select * from t_member WHERE phoneNumber=#{phone}
     </select>
+    <select id="findMemberCountBeforeDate" resultType="java.lang.Integer">
+
+
+
+
+SELECT count(id) FROM t_member WHERE regTime &lt; #{date}
+
+
+
+    </select>
 </mapper>

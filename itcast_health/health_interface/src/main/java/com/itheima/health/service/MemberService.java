@@ -1,5 +1,7 @@
 package com.itheima.health.service;
 
+import java.util.List;
+
 /**
  * @author: jiangchenhui
  * @date ：Created in 2023/7/30
@@ -10,4 +12,8 @@ public interface MemberService {
 
 
     void smsLogin(String telephone);
+
+
+
+    List<Integer> findMemberCountByMonth(List<String> monthList);
 }
